@@ -2,6 +2,9 @@ use std::time::Duration;
 use std::thread;
 use std::fmt;
 
+// TODO: tokenization for convinient code alignment (for picture)
+// TODO: code alignment as picture's pattern (conway's glider basically)
+
 const SIZE: usize = 10;
 const DEBUG: bool = false;
 
@@ -13,7 +16,6 @@ enum Cell {
 impl fmt::Display for Cell {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match self {
-            // TODO: use '█' for alive cells in the future
             Cell::Dead  => write!(f, "{}", if DEBUG { "." } else { "  " }),
             Cell::Alive => write!(f, "{}", if DEBUG { "#" } else { "██" }),
         }
