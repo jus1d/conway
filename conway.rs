@@ -3,7 +3,7 @@ use std::thread;
 use std::fmt;
 
 // TODO(#1): tokenization for convinient code alignment (as provided picture)
-// TODO: code alignment as picture's pattern (conway's glider basically)
+// TODO(#2): code alignment as picture's pattern (conway's glider basically)
 
 // TODO: use `p` for pause animation, and `q` for quit
 
