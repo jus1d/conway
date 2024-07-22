@@ -5,8 +5,12 @@ use std::fmt;
 // TODO: tokenization for convinient code alignment (for picture)
 // TODO: code alignment as picture's pattern (conway's glider basically)
 
+// TODO: use `p` for pause animation, and `q` for quit
+
 const SIZE: usize = 10;
 const DEBUG: bool = false;
+
+const DELAY_MS: u64 = 150;
 
 #[derive(Copy, Clone, PartialEq)]
 enum Cell {
@@ -119,7 +123,7 @@ fn main() {
     loop {
         board.display();
         board.next();
-        thread::sleep(Duration::from_millis(100));
+        thread::sleep(Duration::from_millis(DELAY_MS));
         print!("\x1b[{}A", SIZE + 2);
         print!("\x1b[{}D", SIZE);
     }
