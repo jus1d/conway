@@ -2,7 +2,7 @@ use std::time::Duration;
 use std::thread;
 use std::fmt;
 
-// TODO: tokenization for convinient code alignment (for picture)
+// TODO(#1): tokenization for convinient code alignment (as provided picture)
 // TODO: code alignment as picture's pattern (conway's glider basically)
 
 // TODO: use `p` for pause animation, and `q` for quit
