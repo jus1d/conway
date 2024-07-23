@@ -1,3 +1,5 @@
+// This lexer is VERY simplified for the sake of the simplicity (In this project it is enough sufficient)
+
 use std::iter::Peekable;
 use std::fs;
 
