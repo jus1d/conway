@@ -5,9 +5,16 @@ use std::fs;
 
 #[derive(Debug)]
 enum Token {
+    // Some special characters
     Special(String),
+
+    //Something that cannot be separated
     Word(String),
+
+    // String literals (not a Word, cause they can be separated like "First part " + " second part")
     Str(String),
+
+    // Comments will be skipped in obfuscating process
     Comment(String),
 }
 
@@ -67,6 +74,7 @@ impl <Chars: Iterator<Item=char>> Iterator for Lexer<Chars> {
                         string_content.push(x);
                     }
                     self.chars.next();
+                    // TODO: unescape string literal
                     Some(Token::Str(string_content))
                 },
                 '=' | '-' => {
