@@ -74,7 +74,7 @@ impl <Chars: Iterator<Item=char>> Iterator for Lexer<Chars> {
                         string_content.push(x);
                     }
                     self.chars.next();
-                    // TODO: unescape string literal
+                    // TODO(#4): unescape string literal
                     Some(Token::Str(string_content))
                 },
                 '=' | '-' => {
