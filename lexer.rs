@@ -1,10 +1,9 @@
 // This lexer is VERY simplified for the sake of the simplicity (In this project it is enough sufficient)
 
 use std::iter::Peekable;
-use std::fs;
 
 #[derive(Debug)]
-enum Token {
+pub enum Token {
     // Some special characters
     Special(String),
 
@@ -18,12 +17,12 @@ enum Token {
     Comment(String),
 }
 
-struct Lexer<Chars: Iterator<Item=char>> {
+pub struct Lexer<Chars: Iterator<Item=char>> {
     chars: Peekable<Chars>
 }
 
 impl<Chars: Iterator<Item=char>> Lexer<Chars> {
-    fn from_iter(chars: Chars) -> Self {
+    pub fn from_iter(chars: Chars) -> Self {
         Self { chars: chars.peekable() }
     }
 }
@@ -74,6 +73,7 @@ impl <Chars: Iterator<Item=char>> Iterator for Lexer<Chars> {
                         string_content.push(x);
                     }
                     self.chars.next();
+
                     // TODO(#4): unescape string literal
                     Some(Token::Str(string_content))
                 },
@@ -103,15 +103,3 @@ impl <Chars: Iterator<Item=char>> Iterator for Lexer<Chars> {
     }
 }
 
-fn main() {
-    let filepath: String = String::from("./conway.rs");
-    let source = fs::read_to_string(filepath.clone()).unwrap();
-
-    let lexer = Lexer::from_iter(source.chars());
-    
-    let mut count: u64 = 0;
-    for token in lexer {
-        println!("{count} {:?}", token);
-        count += 1;
-    }
-}
