@@ -1,24 +1,26 @@
 use std::fs;
 use std::fs::{File};
 use std::io::Write;
+use lexer::{Token, Token::*};
 
 mod lexer;
 
 fn main() {
-    let filepath = String::from("./conway.rs");
-    let source: String = fs::read_to_string(filepath.clone()).unwrap();
+    let source: String = fs::read_to_string("./conway.rs").unwrap();
+    let tokens: Vec<Token> = lexer::Lexer::from_iter(source.chars()).collect();
 
-    let tokens = lexer::Lexer::from_iter(source.chars());
-    
     let mut output = File::create("output.rs").expect("creation failed");
-    for token in tokens {
-        println!("{:?}", token);
-
-        use lexer::Token::{*};
-        match token {
+    
+    let mut i = 0;
+    while i < tokens.len() {
+        match &tokens[i] {
             Word(word) => {
                 output.write(word.as_bytes());
-                output.write(" ".as_bytes());
+                if i != tokens.len() {
+                    if let Word(_) = &tokens[i+1] {
+                        output.write(" ".as_bytes());
+                    }
+                }
             },
             Special(tok) => {
                 output.write(tok.as_bytes());
@@ -30,5 +32,6 @@ fn main() {
             },
             _ => {},
         }
+        i += 1;
     }
 }
