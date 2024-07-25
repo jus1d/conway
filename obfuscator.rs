@@ -13,12 +13,14 @@ fn main() {
     
     let mut i = 0;
     while i < tokens.len() {
+        println!("{:?}", tokens[i]);
+
         match &tokens[i] {
             Word(word) => {
                 output.write(word.as_bytes());
                 if i != tokens.len() {
                     if let Word(_) = &tokens[i+1] {
-                        output.write(" ".as_bytes());
+                        output.write(b" ");
                     }
                 }
             },
@@ -26,9 +28,9 @@ fn main() {
                 output.write(tok.as_bytes());
             },
             Str(content) => {
-                output.write("\"".as_bytes());
+                output.write(b"\"");
                 output.write(content.as_bytes());
-                output.write("\"".as_bytes());
+                output.write(b"\"");
             },
             _ => {},
         }
