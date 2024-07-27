@@ -1,4 +1,5 @@
 run: conway
+	cat conway.rs
 	./conway
 
 conway: conway.rs

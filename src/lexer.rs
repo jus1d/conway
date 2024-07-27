@@ -62,7 +62,7 @@ impl <Chars: Iterator<Item=char>> Iterator for Lexer<Chars> {
             content.push(ch);
 
             match ch {
-                '(' | ')' | '{' | '}' | '[' | ']' | ';' | ',' | '.' | '&' => Some(Token::special(content)),
+                '(' | ')' | '{' | '}' | '[' | ']' | ';' | ',' | '.' | '&' | '%' => Some(Token::special(content)),
                 '+' | '*' | '^' => {
                     if let Some(next) = self.chars.peek() {
                        if *next == '=' {
