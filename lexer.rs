@@ -2,7 +2,7 @@
 
 use std::iter::Peekable;
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq)]
 pub enum TokenKind {
     // Some special characters
     Special,

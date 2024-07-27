@@ -4,5 +4,5 @@ run: conway
 conway: conway.rs
 	rustc conway.rs
 
-clear:
+clean:
 	find . -type f -perm +111 -maxdepth 1 -exec rm {} \;

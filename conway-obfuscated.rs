@@ -25,7 +25,6 @@ struct brd {
 }
 
 impl brd {
-    #[allow(dead_code)]
     fn e() -> Self {
         Self {
             cls: [[c::d; sz]; sz],
