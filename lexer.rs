@@ -3,18 +3,42 @@
 use std::iter::Peekable;
 
 #[derive(Debug)]
-pub enum Token {
+pub enum TokenKind {
     // Some special characters
-    Special(String),
+    Special,
 
     //Something that cannot be separated
-    Word(String),
+    Word,
 
     // String literals (not a Word, cause they can be separated like "First part " + " second part")
-    Str(String),
+    Str,
 
     // Comments will be skipped in obfuscating process
-    Comment(String),
+    Comment,
+}
+
+#[derive(Debug)]
+pub struct Token {
+    pub kind: TokenKind,
+    pub content: String,
+}
+
+impl Token {
+    fn special(content: String) -> Self {
+        Self { kind: TokenKind::Special, content }
+    }
+
+    fn word(content: String) -> Self {
+        Self { kind: TokenKind::Word, content }
+    }
+
+    fn string(content: String) -> Self {
+        Self { kind: TokenKind::Str, content }
+    }
+
+    fn comment(content: String) -> Self {
+        Self { kind: TokenKind::Comment, content }
+    }
 }
 
 pub struct Lexer<Chars: Iterator<Item=char>> {
@@ -38,30 +62,30 @@ impl <Chars: Iterator<Item=char>> Iterator for Lexer<Chars> {
             content.push(ch);
 
             match ch {
-                '(' | ')' | '{' | '}' | '[' | ']' | ';' | ',' | '.' | '&' => Some(Token::Special(content)),
+                '(' | ')' | '{' | '}' | '[' | ']' | ';' | ',' | '.' | '&' => Some(Token::special(content)),
                 '+' | '*' | '^' => {
                     if let Some(next) = self.chars.peek() {
                        if *next == '=' {
                            content.push(*next);
                            self.chars.next();
-                           return Some(Token::Special(content));
+                           return Some(Token::special(content));
                        }
 
                     }
                     
-                    return Some(Token::Special(content));
+                    return Some(Token::special(content));
                 },
                 '|' | '&' | ':' => {
                     if let Some(next) = self.chars.peek() {
                        if *next == ch {
                            content.push(*next);
                            self.chars.next();
-                           return Some(Token::Special(content));
+                           return Some(Token::special(content));
                        }
 
                     }
                     
-                    return Some(Token::Special(content));
+                    return Some(Token::special(content));
                 },
                 '/' => {
                     if let Some(next) = self.chars.peek() {
@@ -74,15 +98,15 @@ impl <Chars: Iterator<Item=char>> Iterator for Lexer<Chars> {
                             }
 
                             self.chars.next();
-                            return Some(Token::Comment(comment_content));
+                            return Some(Token::comment(comment_content));
                         } else if *next == '=' {
                            content.push(*next);
                            self.chars.next();
-                           return Some(Token::Special(content));
+                           return Some(Token::special(content));
                         }
                     }
 
-                    Some(Token::Special(content))
+                    Some(Token::special(content))
                 },
                 '"' => {
                     let mut string_content = String::new();
@@ -92,7 +116,7 @@ impl <Chars: Iterator<Item=char>> Iterator for Lexer<Chars> {
                     self.chars.next();
 
                     // TODO(#4): unescape string literal
-                    Some(Token::Str(string_content))
+                    Some(Token::string(string_content))
                 },
                 '=' | '-' => {
                     if let Some(next) = self.chars.peek() {
@@ -100,18 +124,18 @@ impl <Chars: Iterator<Item=char>> Iterator for Lexer<Chars> {
                             content.push(*next);
                             self.chars.next();
 
-                            return Some(Token::Special(content));
+                            return Some(Token::special(content));
                         }
                     }
 
-                    Some(Token::Special(content))
+                    Some(Token::special(content))
                 },
                 _ => {
                     while let Some(x) = self.chars.next_if(|x| x.is_alphabetic() || *x == '!' || *x == '_' || x.is_digit(10)) {
                         content.push(x);
                     }
 
-                    Some(Token::Word(content))
+                    Some(Token::word(content))
                 },
             }
         } else {
