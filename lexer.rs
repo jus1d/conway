@@ -99,7 +99,6 @@ impl <Chars: Iterator<Item=char>> Iterator for Lexer<Chars> {
                         if *next == '>' || *next == '=' {
                             content.push(*next);
                             self.chars.next();
-                            println!("Content: {}", content);
 
                             return Some(Token::Special(content));
                         }
