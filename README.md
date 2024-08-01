@@ -42,3 +42,19 @@ L));print!("\x1b[{S}A\x1b[{S}D");}} // Created by jus1d
 ```
 
 wotafak? ( .-.)
+
+# Generating some similar staff
+
+For now, you need to specify pattern and size in `format.rs` in a bit crappy way. I hope I'll change it later
+
+```console
+$ rustc format.rs
+$ ./format > output.rs
+```
+
+Than you can view formatted code, and maybe fix it manually (cause for now formatter isn't supacool)
+
+```console
+$ cat ./output.rs
+rustc ./output.rs && ./output
+```
