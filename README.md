@@ -56,5 +56,5 @@ Than you can view formatted code, and maybe fix it manually (cause for now forma
 
 ```console
 $ cat ./output.rs
-rustc ./output.rs && ./output
+$ rustc ./output.rs && ./output
 ```
